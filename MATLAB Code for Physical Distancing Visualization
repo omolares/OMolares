@@ -1,0 +1,69 @@
+%Oriana Molares 
+%July 10, 2022
+%Epidemiology Modeling for Infected cases
+
+clc;
+
+ %average of the Ro1.5 and sd to graph later
+ R1_5 = fillmissing(Ro1_5, 'constant', 0);Avg1_5 = [];std1_5 = [];
+ 
+for ii=1:200
+    Avg1_5(ii) = mean(R1_5{:,ii}); %mean from each column
+    std1_5(ii) = std(R1_5{:,ii}); %standard deviation from each column
+    ii = ii+1;
+end
+
+ R2_5 = fillmissing(Ro2_5, 'constant', 0); Avg2_5 = []; std2_5 = [];
+ 
+for ii=1:200
+    Avg2_5(ii) = mean(R2_5{:,ii}); %mean from each column
+    std2_5(ii) = std(R2_5{:,ii}); %standard deviation from each column
+    ii = ii+1;
+end
+ R2_9 = fillmissing(Ro2_9, 'constant', 0); Avg_99 = []; std_99 = [];
+ 
+for ii=1:200
+    Avg2_9(ii) = mean(R2_9{:,ii}); %mean from each column
+    std2_9(ii) = std(R2_9{:,ii}); %standard deviation from each column
+    ii = ii+1;
+end
+
+ R1_2 = fillmissing(Ro1_2, 'constant', 0); Avg1_2 = []; std1_2 = [];
+ 
+for ii=1:200
+    Avg1_2(ii) = mean(R1_2{:,ii}); %mean from each column
+    std1_2(ii) = std(R1_2{:,ii}); %standard deviation from each column
+    ii = ii+1;
+end
+x = 1:200;
+
+figure
+plot(x, Avg2_9(1:200),'Color','#8B5742','LineWidth',2,'DisplayName', 'T 0.16');%highest amount
+hold on
+plot(x, Avg2_5(1:200),'Color','#CD8162','LineWidth',2,'DisplayName', 'T 0.13'); 
+hold on
+plot(x, Avg1_5(1:200),'Color','#EE9572','LineWidth',1, 'DisplayName', 'T 0.07'); %peak in 4 ish
+hold on
+plot(x, Avg1_2(1:200),'Color','#FFDAB9','LineWidth',2, 'DisplayName', 'T .054');
+hold on
+legend
+
+errorbar(x,Avg1_2(1:200),std1_2(1:200),'Color','#FFDAB9','LineWidth',1,'HandleVisibility','off');
+errorbar(x,Avg1_5(1:200),std1_5(1:200),'Color','#EE9572','LineWidth',1,'HandleVisibility','off');
+errorbar(x,Avg2_5(1:200),std2_5(1:200),'Color','#CD8162','LineWidth',1,'HandleVisibility','off');
+errorbar(x,Avg2_9(1:200),std2_9(1:200),'Color','#8B5742','LineWidth',1,'HandleVisibility','off');
+
+title('The effect of physical distancing through Small World modeling','FontName', 'Times New Roman', 'FontSize', 14);;
+xlabel('Time (days)','FontName','Times New Roman', 'FontSize', 14);
+ylabel('Prevalence (infected cases)','FontName', 'Times New Roman', 'FontSize', 14);
+ylim([0 1400]);
+grid on
+
+% Missing features: peak (highest w second highest and lowest)
+P1_2 = max(Avg1_2);
+P1_5 = max(Avg1_5);
+P2_5 = max(Avg2_5);
+P2_9 = max(Avg2_9);
+
+f1 = (P1_2/P2_9)*100
+f2 = (P2_5/P2_9)*100
